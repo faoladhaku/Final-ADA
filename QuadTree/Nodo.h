@@ -68,10 +68,11 @@ void Nodo::Update(sf::RenderWindow * & window)
     }
     else
     {
-        for (int i=0;i<=3;i++)
-        {
-            hijos[i]->Update(window);
-        }
+        hijos[0]->Update(window);
+        hijos[1]->Update(window);
+        hijos[2]->Update(window);
+        hijos[3]->Update(window);
+
     }
 }
 
@@ -95,6 +96,7 @@ Nodo* Nodo::Encontrar(sf::CircleShape*& objeto)
 {
     if (!this->tieneHijos())
     {
+        std::cout<<"encontro "<<this<<std::endl;
         if (objeto->getPosition().x > this->p1[0] && 
             objeto->getPosition().x < this->p2[0] &&
             objeto->getPosition().y > this->p1[1] && 
@@ -108,7 +110,9 @@ Nodo* Nodo::Encontrar(sf::CircleShape*& objeto)
     {
         for (int i=0;i<=3;i++)
         {
-            hijos[i]->Encontrar(objeto);
+            Nodo* res= hijos[i]->Encontrar(objeto);
+            if (res)
+                return res;
         }
     }
 
@@ -132,7 +136,6 @@ void Nodo::Dividir()
     {
         this->Insertar(objetos[i]);
     }
-    this->objetos.clear();
 
 }
 
@@ -143,7 +146,7 @@ void Nodo::Insertar(sf::CircleShape*& objeto)
 
     Nodo* cuadrante=this->Encontrar(objeto);
     this->impHijos();
-    std::cout<<"encontro "<<cuadrante<<" actual: "<<this<<std::endl;
+    //std::cout<<"encontro "<<cuadrante<<" actual: "<<this<<std::endl;
     if (cuadrante){
         cuadrante->objetos.push_back(objeto);
         if (cuadrante->objetos.size()==3)
@@ -153,5 +156,4 @@ void Nodo::Insertar(sf::CircleShape*& objeto)
     }
     else
         std::cout<<"que fue?"<<std::endl;
-
 }
