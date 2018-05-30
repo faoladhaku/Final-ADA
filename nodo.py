@@ -1,7 +1,7 @@
-class classname(object):
-    def __self__(self, id,posicion,error):
+class nodo():
+    def __init__(self, id,posicion,error):
         self.id = id
-        self.posicion= posicion
+        self.posicion= []
         self.error = error
     def findcercanos(self, topologia ):
         pass
