@@ -1,15 +1,15 @@
 from grafo import *
 
-nodo1 = nodo(1,[1,2],2)
-nodo2 = nodo(2,[1,2],4)
+nodo1 = Nodo(1,[1,2],2)
+nodo2 = Nodo(2,[1,2],4)
 
-arista = aristas(nodo1,nodo2,2,2)
+arista = Arista(nodo1,nodo2,2,2)
 
-grafo = grafo()
-grafo.addnodo(nodo1)
+grafo = Grafo()
+grafo.addNodo(nodo1)
 
-grafo.addnodo(nodo2)
+grafo.addNodo(nodo2)
 
-grafo.addarista(arista)
+grafo.addArista(arista)
 
-grafo.findnodo(nodo1)
+grafo.findNodo(nodo1)

@@ -1,20 +1,20 @@
-from nodo import nodo
-from aristas import aristas
+from nodo import Nodo
+from arista import Arista
 
-class grafo():
+class Grafo():
     def __init__(self):
         self.nodos = []
         self.aristas = []
-    def addnodo(self, nodo):
+    def addNodo(self, nodo):
         self.nodos.append(nodo)
-        print(nodo.id)
-    def addarista(self, arista):
+        print "AN",nodo.id
+    def addArista(self, arista):
         self.aristas.append(arista)
-        print(arista.edad)
-    def findnodo(self, nodo):
+        print "AA",arista.edad
+    def findNodo(self, nodo):
         for x in self.nodos:
             if(x.id == nodo.id):
-                print(nodo.id)
-    def deletenodo(self, nodos):
+                print "FN",nodo.id
+    def deleteNodo(self, nodos):
         pass
     

@@ -1,9 +1,9 @@
-class nodo():
+class Nodo():
     def __init__(self, id,posicion,error):
         self.id = id
         self.posicion= []
         self.error = error
-    def findcercanos(self, topologia ):
+    def findCercanos(self, topologia ):
         pass
-    def getsenal(self, topologia):
+    def getSenal(self, topologia):
         pass
