@@ -6,4 +6,4 @@ class Nodo():
     def findCercanos(self, topologia ):
         pass
     def getSenal(self, topologia):
-        pass
+        print "senal"
