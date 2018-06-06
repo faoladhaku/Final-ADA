@@ -19,13 +19,16 @@ class QuadTree:
                     #print(pos)
                     #objetos.append(pos)
                     self.raiz.Insertar(pos)
+                    objetos.append(pos)
+                    print(objetos)
             self.pantalla.fill(pg.color.Color('black'))
             #pg.draw.rect(self.pantalla,pg.color.Color('blue'),[300,300,600,600],1)
             self.raiz.Update(self.pantalla)
             pg.display.flip()
             self.reloj.tick(20)
-            
+        print objetos
+
 
 qt=QuadTree()
 qt.update()
-pg.quit()            
+pg.quit()

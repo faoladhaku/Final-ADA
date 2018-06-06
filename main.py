@@ -12,9 +12,14 @@ grafo.addNodo(nodo2)
 grafo.addArista(arista)
 
 grafo.findNodo(nodo1)'''
-
+nodo1= Nodo(1,[5,7],0)
 grafo = Grafo()
 mytopologia = topologia()
+posiciones=[(66, 111), (462, 98), (94, 405), (454, 406)]
+print posiciones
+for i in range(len(posiciones)):
+    mytopologia.addNodo(i,posiciones[i],0)
+
 mygng = gng(mytopologia,grafo)
 
 mygng.begin()
