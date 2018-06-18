@@ -5,7 +5,7 @@ class QNodo:
         self.p1=p1
         self.p2=p2
         self.objetos=[]
-        self.hijos=[0]*4
+        self.hijos=[None]*4
         self.ancho=abs(p2[0]-p1[0])
         self.altura=abs(p2[1]-p1[1])
         self.rectangulo=p1+[self.ancho,self.altura]

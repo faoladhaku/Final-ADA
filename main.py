@@ -1,4 +1,4 @@
-from gng import *
+from gng import gng
 '''nodo1 = Nodo(1,[1,2],2)
 nodo2 = Nodo(2,[1,2],4)
 
@@ -13,15 +13,9 @@ grafo.addArista(arista)
 
 grafo.findNodo(nodo1)'''
 
-nodo1= Nodo(1,[5,7],0)
-grafo = Grafo()
-mytopologia = Grafo()
-posiciones=[(66, 111), (462, 98), (94, 405), (454, 406)]
-print posiciones
-for i in range(len(posiciones)):
-    mytopologia.addNodo1(i,posiciones[i],0)
+topologia=[[482, 232], [257, 404], [119, 321], [268, 229], [123, 155], [186, 40], [110, 273]]
 
-mygng = gng(mytopologia,grafo)
+mygng = gng(topologia)
 
 
-mygng.begin()
+mygng.start()
