@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 from grafo import *
 from topologia  import topologia
 import operator
@@ -29,7 +30,6 @@ class gng():
         reloj=pg.time.Clock()
         pg.font.init()
         cerrar=False
-        input("Iniciar")
 
         while not cerrar:
             for evento in pg.event.get():
@@ -38,21 +38,21 @@ class gng():
 
             pantalla.fill(pg.color.Color('black'))
 
-            #Generar la señal (un elemento random de la topologia)
+            #Generar la senal (un elemento random de la topologia)
             signal= random.choice(self.topologia)
             
-            #Encontramos los 2 más cercanos a la señal
+            #Encontramos los 2 mas cercanos a la senal
             nodo1,nodo2,dist=self.grafo.findCercanos(signal)
             print(signal)
 
-            #Aumentar el error del nodo más cercano
+            #Aumentar el error del nodo mas cercano
             nodo1.error+=dist
 
-            #Movemos al nodo mas cercano hacia la señal
+            #Movemos al nodo mas cercano hacia la senal
             e=0.3  #Factor de movimiento (algo asi como la velocidad)
             nodo1.mover(e,signal)
 
-            #Movemos a todos los vecinos hacia la señal
+            #Movemos a todos los vecinos hacia la senal
             for vecino in nodo1.vecinos:
                 vecino[0].mover(e,signal)
                 vecino[1].edad+=1
