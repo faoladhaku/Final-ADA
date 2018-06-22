@@ -48,6 +48,13 @@ class Nodo():
         cercanos.append(nodo_cercano)
         return cercanos
 
+    def posMedia(self,nodo1):
+        print("posicion",self.posicion)
+        posicion=[0]*len(self.posicion)
+        for i in range(len(self.posicion)):
+            posicion[i]=(self.posicion[i]+nodo1.posicion[i])/2
+        return posicion
+
 
     def getSenal(self, topologia):
         #print "senal"
