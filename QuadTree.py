@@ -26,7 +26,7 @@ class QuadTree:
             self.raiz.Update(self.pantalla)
             pg.display.flip()
             self.reloj.tick(20)
-        print objetos
+        print (objetos)
 
 
 qt=QuadTree()
