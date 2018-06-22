@@ -15,8 +15,9 @@ class gng():
         self.grafo.addConexion(nodo1,nodo2)
         self.edadMax=5
         self.iteracion=0
-        self.alpha=0.5
-        self.betha=0.6
+        self.alpha=0.5  #Factor de aumento en nuevos nodos
+        self.betha=0.6  
+        
 	
 
 
