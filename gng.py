@@ -122,7 +122,7 @@ class gng():
 
 
             pg.display.flip()
-            reloj.tick(20)
+            reloj.tick(40)
             
 
 
