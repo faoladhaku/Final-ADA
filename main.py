@@ -39,28 +39,30 @@ mygng = gng(topologia)
 mygng.start()
 
 
-tam=[600,600]
-pantalla=pg.display.set_mode(tam)
-reloj=pg.time.Clock()
-pg.font.init()
-cerrar=False
-while not cerrar:
-    for evento in pg.event.get():
-        if evento.type==pg.QUIT:
-            cerrar= True
+# tam=[600,600]
+# pantalla=pg.display.set_mode(tam)
+# reloj=pg.time.Clock()
+# pg.font.init()
+# cerrar=False
+# pos=[0,0]
+# while not cerrar:
+#     for evento in pg.event.get():
+#         if evento.type==pg.QUIT:
+#             cerrar= True
 
-    pantalla.fill(pg.color.Color('black'))
+#     pantalla.fill(pg.color.Color('black'))
 
-    for arista in mygng.grafo.aristas:
-            pg.draw.line(pantalla,pg.color.Color('red'),arista.nodos[0].posicion,arista.nodos[1].posicion,1)
+#     for arista in mygng.grafo.aristas:
+#             pg.draw.line(pantalla,pg.color.Color('red'),arista.nodos[0].posicion,arista.nodos[1].posicion,1)
 
-    for nodo in mygng.grafo.nodos:
-        pg.draw.circle(pantalla,pg.color.Color('blue'), list(map(int,nodo.posicion)),3)
-        #text_to_screen(pantalla,nodo.id,nodo.posicion)
+#     for nodo in mygng.grafo.nodos:
+#         pg.draw.circle(pantalla,pg.color.Color('blue'), list(map(int,nodo.posicion)),3)
+#         #text_to_screen(pantalla,nodo.id,nodo.posicion)
 
-    for punto in topologia:
-        pg.draw.circle(pantalla,pg.color.Color('white'),punto,6)
+#     for punto in topologia:
+#         pg.draw.circle(pantalla,pg.color.Color('white'),punto,6)
 
 
-    pg.display.flip()
-    reloj.tick(20)
+
+#     pg.display.flip()
+#     reloj.tick(5)

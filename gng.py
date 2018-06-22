@@ -23,9 +23,19 @@ class gng():
 
     def start(self):
 
-        while True:
+        tam=[600,600]
+        pantalla=pg.display.set_mode(tam)
+        reloj=pg.time.Clock()
+        pg.font.init()
+        cerrar=False
+        input("Iniciar")
 
-            #signal=self.topologia[random.randint(0,len(self.topologia)-1)]
+        while not cerrar:
+            for evento in pg.event.get():
+                if evento.type==pg.QUIT:
+                    cerrar= True
+
+            pantalla.fill(pg.color.Color('black'))
 
             #Generar la señal (un elemento random de la topologia)
             signal= random.choice(self.topologia)
@@ -89,10 +99,29 @@ class gng():
             
             #Si excedio el limite GG
             if len(self.grafo.nodos)==500:
-                print("Termino")
+
+                print("Termino\n")
+                print("Numero de nodos",len(self.grafo.nodos))
+
+                input("Presione una tecla para cerrar")
                 # for nodo in self.grafo.nodos:
                 #     print(nodo.id,  [i[0].id for i in nodo.vecinos])
                 return
+
+            for arista in self.grafo.aristas:
+                pg.draw.line(pantalla,pg.color.Color('red'),arista.nodos[0].posicion,arista.nodos[1].posicion,1)
+
+            for nodo in self.grafo.nodos:
+                pg.draw.circle(pantalla,pg.color.Color('blue'), list(map(int,nodo.posicion)),3)
+                #text_to_screen(pantalla,nodo.id,nodo.posicion)
+
+            for punto in self.topologia:
+                pg.draw.circle(pantalla,pg.color.Color('white'),punto,6)
+
+
+
+            pg.display.flip()
+            reloj.tick(5)
             
 
 
