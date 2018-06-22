@@ -183,71 +183,75 @@ def text_to_screen(screen, text, pos, size = 25):
         raise e
 
 
-# grafo=Grafo()
-# tam=[600,600]
-# pg.font.init()
-# for i in range(7):
-#     grafo.addNodo1(1,[random.randint(1,600),random.randint(1,600)],0)
+def test():
+    grafo=Grafo()
+    tam=[600,600]
+    pg.font.init()
 
-# for nodo1 in grafo.nodos:
-#     h=random.randint(0,grafo.id-1)
-#     n=[grafo.nodos[random.randint(0,grafo.id-1)] for i in range(h)]
-#     for nodo2 in n:
-#         grafo.addConexion(nodo1,nodo2)
+    # for i in range(7):
+    #     grafo.addNodo1(1,[random.randint(1,600),random.randint(1,600)],0)
 
-# for nodo in grafo.nodos:
-#     print ("Vecinos de ",nodo.id)
-#     print ("\t-",[(i[0].id,i[1]) for i in nodo.vecinos])
+    # for nodo1 in grafo.nodos:
+    #     h=random.randint(0,grafo.id-1)
+    #     n=[grafo.nodos[random.randint(0,grafo.id-1)] for i in range(h)]
+    #     for nodo2 in n:
+    #         grafo.addConexion(nodo1,nodo2)
 
-# for arista in grafo.aristas:
-#     print ("Arista:",[nodo.id for nodo in arista.nodos],arista)
+    # for nodo in grafo.nodos:
+    #     print ("Vecinos de ",nodo.id)
+    #     print ("\t-",[(i[0].id,i[1]) for i in nodo.vecinos])
 
-# pantalla=pg.display.set_mode(tam)
-# reloj=pg.time.Clock()
-# cerrar=False
-# while not cerrar:
-#     for evento in pg.event.get():
-#         if evento.type==pg.QUIT:
-#             cerrar= True
-#         if evento.type==pg.MOUSEBUTTONUP:
-#             pos=pg.mouse.get_pos()
-#             grafo.addNodo1(1,pos,0)
-#             #objetos.append(pos)
-#         if evento.type==pg.KEYUP:
-#             if evento.key==pg.K_s:
-#                 b=list(map(int,input("Ingrese Nodos: ").split()))
-#                 grafo.addConexiones(b)
-#                 for nodo in grafo.nodos:
-#                     print ("Vecinos de ",nodo.id,[i[0].id for i in nodo.vecinos])
-#             elif evento.key==pg.K_r:
-#                 b=list(map(int,input("Ingrese Nodos: ").split()))
-#                 grafo.deleteConexionN(b[0],b[1])
+    # for arista in grafo.aristas:
+    #     print ("Arista:",[nodo.id for nodo in arista.nodos],arista)
 
-#             elif evento.key==pg.K_t:
-#                 ar=grafo.aristas[:]
-#                 for arista in ar:
-#                     grafo.deleteConexionA(arista)
-#                 ar.clear()
-        
+    pantalla=pg.display.set_mode(tam)
+    reloj=pg.time.Clock()
+    cerrar=False
+    while not cerrar:
+        for evento in pg.event.get():
+            if evento.type==pg.QUIT:
+                cerrar= True
+            if evento.type==pg.MOUSEBUTTONUP:
+                pos=pg.mouse.get_pos()
+                grafo.addNodo1(1,pos,0)
+                #objetos.append(pos)
+            if evento.type==pg.KEYUP:
+                if evento.key==pg.K_s:
+                    b=list(map(int,input("Ingrese Nodos: ").split()))
+                    grafo.addConexiones(b)
+                    for nodo in grafo.nodos:
+                        print ("Vecinos de ",nodo.id,[i[0].id for i in nodo.vecinos])
+                elif evento.key==pg.K_r:
+                    b=list(map(int,input("Ingrese Nodos: ").split()))
+                    grafo.deleteConexionN(b[0],b[1])
+
+                elif evento.key==pg.K_t:
+                    ar=grafo.aristas[:]
+                    for arista in ar:
+                        grafo.deleteConexionA(arista)
+                    ar.clear()
             
-#     pantalla.fill(pg.color.Color('black'))
-#     #pg.draw.rect(pantalla,pg.color.Color('blue'),[300,300,600,600],1)
-#     for arista in grafo.aristas:
-#         pg.draw.line(pantalla,pg.color.Color('red'),arista.nodos[0].posicion,arista.nodos[1].posicion,1)
+                
+        pantalla.fill(pg.color.Color('black'))
+        #pg.draw.rect(pantalla,pg.color.Color('blue'),[300,300,600,600],1)
+        for arista in grafo.aristas:
+            pg.draw.line(pantalla,pg.color.Color('red'),arista.nodos[0].posicion,arista.nodos[1].posicion,1)
 
-#     for nodo in grafo.nodos:
-#         pg.draw.circle(pantalla,pg.color.Color('blue'),nodo.posicion,6)
-#         text_to_screen(pantalla,nodo.id,nodo.posicion)
+        for nodo in grafo.nodos:
+            pg.draw.circle(pantalla,pg.color.Color('blue'),nodo.posicion,6)
+            text_to_screen(pantalla,nodo.id,nodo.posicion)
 
 
-#     pg.display.flip()
-#     reloj.tick(20)
+        pg.display.flip()
+        reloj.tick(20)
 
-# print("Grafo terminado")
-# for nodo in grafo.nodos:
-#     print ("Vecinos de ",nodo.id,[i[0].id for i in nodo.vecinos])
+    print("Grafo terminado")
+    for nodo in grafo.nodos:
+        print ("Vecinos de ",nodo.id,[i[0].id for i in nodo.vecinos])
 
-# for arista in grafo.aristas:
-#     print("Arista",arista.nodos)
+    for arista in grafo.aristas:
+        print("Arista",arista.nodos)
 
-# print([i.posicion for i in grafo.nodos]) 
+    print([i.posicion for i in grafo.nodos]) 
+
+#test()
