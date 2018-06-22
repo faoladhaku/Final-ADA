@@ -33,6 +33,39 @@ topologia=[[178, 95], [161, 112], [150, 145], [150, 172], [161, 195], [186, 218]
 [448, 391], [471, 377], [487, 356], [497, 314], [476, 286], [461, 302], [439, 326], [431, 330], [424, 312], [427, 292], [435, 267], [448, 242], [444, 209], [439, 193], [429, 173], [410, 151], [387,
 140], [360, 145], [340, 127], [344, 107], [357, 86], [351, 73], [325, 69], [311, 80], [300, 107], [282, 99], [274, 77], [261, 61], [246, 57], [230, 77], [231, 102], [220, 131]]
 
+
+tam=[600,600]
+pantalla=pg.display.set_mode(tam)
+reloj=pg.time.Clock()
+cerrar=False
+ 
+print("1.- Usar topologia por default")
+print("2.- Propia topologia")
+op=input("opcion: ")
+if op=='1' or op==1:
+    cerrar=True
+else:
+    topologia=[]
+
+while not cerrar:
+    for evento in pg.event.get():
+        if evento.type==pg.QUIT:
+            cerrar= True
+        if evento.type==pg.MOUSEMOTION:
+            if pg.mouse.get_pressed()[0]:
+                pos=pg.mouse.get_pos()
+                topologia.append(pos)
+
+    pantalla.fill(pg.color.Color('black'))
+
+    for punto in topologia:
+        pg.draw.circle(pantalla,pg.color.Color('white'),punto,3)
+
+
+
+    pg.display.flip()
+    reloj.tick(30)
+
 mygng = gng(topologia)
 
 

@@ -49,7 +49,7 @@ class Nodo():
         return cercanos
 
     def posMedia(self,nodo1):
-        print("posicion",self.posicion)
+        #print("posicion",self.posicion)
         posicion=[0]*len(self.posicion)
         for i in range(len(self.posicion)):
             posicion[i]=(self.posicion[i]+nodo1.posicion[i])/2

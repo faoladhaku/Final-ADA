@@ -14,10 +14,11 @@ class gng():
         print("Crear nodos iniciales: ")
         print('\t',nodo1.posicion,nodo2.posicion)
         self.grafo.addConexion(nodo1,nodo2)
-        self.edadMax=5
+        self.edadMax=6
         self.iteracion=0
-        self.alpha=0.5  #Factor de aumento en nuevos nodos
-        self.betha=0.6  
+        self.alpha=0.8  #Factor de aumento de error en nuevos nodos
+        self.betha=0.8  #Factor de decrecimiento de errores
+        self.maxNodos=1000
         
 	
 
@@ -43,7 +44,7 @@ class gng():
             
             #Encontramos los 2 mas cercanos a la senal
             nodo1,nodo2,dist=self.grafo.findCercanos(signal)
-            print(signal)
+            #print(signal)
 
             #Aumentar el error del nodo mas cercano
             nodo1.error+=dist
@@ -68,12 +69,12 @@ class gng():
             #Se revisan todas las aristas para ver si hay una muy vieja 
             ar=self.grafo.aristas[:]
             for arista in ar:
-                if arista.edad>self.edadMax:   #Si encontramos una borramos sus conexiones
+                if arista.edad>=self.edadMax:   #Si encontramos una borramos sus conexiones
                     self.grafo.deleteConexionA(arista)
             ar=[]
 
             #Agregar nodo si no se excedio el limite
-            if self.iteracion%10==0 and len(self.grafo.nodos)<=800:
+            if self.iteracion%10==0 and len(self.grafo.nodos)<=self.maxNodos:
                 #Encontrar el nodo con error maximo
                 nodoU=self.grafo.getNodeErrorMax()
                 #Encontrar el nodo vecino de nodoU con el error maximo
@@ -99,16 +100,17 @@ class gng():
                     nodo.error-=self.betha*nodo.error
             
             #Si excedio el limite GG
-            if len(self.grafo.nodos)==500:
+            if len(self.grafo.nodos)==self.maxNodos:
 
                 print("Termino\n")
                 print("Numero de nodos",len(self.grafo.nodos))
-
                 input("Presione una tecla para cerrar")
                 # for nodo in self.grafo.nodos:
                 #     print(nodo.id,  [i[0].id for i in nodo.vecinos])
                 return
 
+            for punto in self.topologia:
+                pg.draw.circle(pantalla,pg.color.Color('white'),punto,3)
             for arista in self.grafo.aristas:
                 pg.draw.line(pantalla,pg.color.Color('red'),arista.nodos[0].posicion,arista.nodos[1].posicion,1)
 
@@ -116,19 +118,29 @@ class gng():
                 pg.draw.circle(pantalla,pg.color.Color('blue'), list(map(int,nodo.posicion)),3)
                 #text_to_screen(pantalla,nodo.id,nodo.posicion)
 
-            for punto in self.topologia:
-                pg.draw.circle(pantalla,pg.color.Color('white'),punto,6)
-
+            self.iteracion+=1
 
 
             pg.display.flip()
-            reloj.tick(5)
+            reloj.tick(20)
             
 
 
-            
+        print("Termino\n")
+        print("Numero de nodos",len(self.grafo.nodos))
+
+        cerrar=False
+        pantalla=pg.display.set_mode(tam)
+        while not cerrar:
+            for evento in pg.event.get():
+                if evento.type==pg.QUIT:
+                    cerrar= True
+
+            pantalla.fill(pg.color.Color('black'))
+            for nodo in self.grafo.nodos:
+                pg.draw.circle(pantalla,pg.color.Color('blue'), list(map(int,nodo.posicion)),3)
+            pg.display.flip()
+            reloj.tick(20)
 
 
-
-        
-        print("Cercanos:",nodo1.posicion,nodo2.posicion,dist)
+        #print("Cercanos:",nodo1.posicion,nodo2.posicion,dist)
