@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 import pygame as pg
 
 from arista import Arista
