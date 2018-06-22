@@ -85,7 +85,6 @@ class gng():
                     print(nodo.id,  [i[0].id for i in nodo.vecinos])
                 return
             
-            self.iteracion+=1
 
 
             
