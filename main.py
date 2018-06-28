@@ -3,7 +3,7 @@ import pygame as pg
 
 
 #Ready to go: Linux and Windows
-
+#Msg to fork
 def text_to_screen(screen, text, pos, size = 25):
     try:
 
