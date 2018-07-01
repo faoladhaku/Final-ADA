@@ -6,6 +6,7 @@ class Nodo():
         self.posicion= list(posicion)
         self.error = error
         self.vecinos=[]
+        self.visitado=0
     
 
     def mover(self,e,signal):

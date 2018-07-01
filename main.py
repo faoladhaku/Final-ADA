@@ -1,5 +1,6 @@
 from gng import gng
 import pygame as pg
+from figura import topologia
 
 
 #Ready to go: Linux and Windows
@@ -17,24 +18,21 @@ def text_to_screen(screen, text, pos, size = 25):
         raise e
 
 #topologia=[[482, 232], [257, 404], [119, 321], [268, 229], [123, 155], [186, 40], [110, 273]]
-topologia=[[178, 95], [161, 112], [150, 145], [150, 172], [161, 195], [186, 218], [210, 232], [233, 239], [255, 250], [279, 267], [289, 291], [291, 316], [283, 332], [272, 346], [258, 361], [238, 381], [216,
-396], [198, 412], [178, 435], [168, 448], [189, 476], [222, 488], [247, 498], [279, 509], [306, 513], [329, 514], [354, 519], [377, 510], [399, 502], [410, 477], [415, 457], [421, 428], [428, 406],
-[448, 391], [471, 377], [487, 356], [497, 314], [476, 286], [461, 302], [439, 326], [431, 330], [424, 312], [427, 292], [435, 267], [448, 242], [444, 209], [439, 193], [429, 173], [410, 151], [387,
-140], [360, 145], [340, 127], [344, 107], [357, 86], [351, 73], [325, 69], [311, 80], [300, 107], [282, 99], [274, 77], [261, 61], [246, 57], [230, 77], [231, 102], [220, 131]]
 
 
-tam=[600,600]
-pantalla=pg.display.set_mode(tam)
-reloj=pg.time.Clock()
-cerrar=False
+
  
 print("1.- Usar topologia por default")
 print("2.- Propia topologia")
 op=input("opcion: ")
+tam=[1280,720]
 if op=='1' or op==1:
     cerrar=True
 else:
-    topologia=[]
+    topologia=[]    
+    pantalla=pg.display.set_mode(tam)
+    reloj=pg.time.Clock()
+    cerrar=False
 
 while not cerrar:
     for evento in pg.event.get():
@@ -53,9 +51,11 @@ while not cerrar:
 
 
     pg.display.flip()
-    reloj.tick(30)
+    reloj.tick(60)
 
-mygng = gng(topologia)
+#print(topologia[0])
+
+mygng = gng(topologia,tam)
 
 
 mygng.start()

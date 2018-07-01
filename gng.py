@@ -1,11 +1,10 @@
 # -*- encoding: utf-8 -*-
 from grafo import *
-from topologia  import topologia
 import operator
 
 
 class gng():
-    def __init__(self,topologia):
+    def __init__(self,topologia,tam):
         self.topologia = topologia
         self.grafo = Grafo()
         self.senal = []
@@ -14,11 +13,15 @@ class gng():
         print("Crear nodos iniciales: ")
         print('\t',nodo1.posicion,nodo2.posicion)
         self.grafo.addConexion(nodo1,nodo2)
-        self.edadMax=6
+        self.edadMax=100
         self.iteracion=0
-        self.alpha=0.8  #Factor de aumento de error en nuevos nodos
-        self.betha=0.8  #Factor de decrecimiento de errores
-        self.maxNodos=1000
+        self.alpha=0.05  #Factor de aumento de error en nuevos nodos
+        self.betha=0.0005  #Factor de decrecimiento de errores
+        self.maxNodos=600
+        self.ew=0.1    #Movimiento de nodo principal
+        self.en=0.01   #Movimiento de vecinos
+        self.lamb=100  #Iteracion # para insertar nuevo nodo
+        self.tam=tam
         
 	
 
@@ -26,7 +29,7 @@ class gng():
 
     def start(self):
 
-        tam=[600,600]
+        tam=self.tam
         pantalla=pg.display.set_mode(tam)
         reloj=pg.time.Clock()
         pg.font.init()
@@ -36,6 +39,10 @@ class gng():
             for evento in pg.event.get():
                 if evento.type==pg.QUIT:
                     cerrar= True
+                if evento.type==pg.MOUSEMOTION:
+                    if pg.mouse.get_pressed()[0]:
+                        pos=pg.mouse.get_pos()
+                        self.topologia.append(pos)
 
             pantalla.fill(pg.color.Color('black'))
 
@@ -50,13 +57,14 @@ class gng():
             nodo1.error+=dist
 
             #Movemos al nodo mas cercano hacia la senal
-            e=0.3  #Factor de movimiento (algo asi como la velocidad)
-            nodo1.mover(e,signal)
+            #e=0.3  #Factor de movimiento (algo asi como la velocidad)
+            nodo1.mover(self.ew,signal)
+            nodo1.visitado=1
 
             #Movemos a todos los vecinos hacia la senal
             for vecino in nodo1.vecinos:
-                vecino[0].mover(e,signal)
-                vecino[1].edad+=1
+                vecino[0].mover(self.en,signal)
+                vecino[1].edad+=5
             
             #Revisamos si los dos nodos del principio tienen conexion
             arista=nodo1.tieneVecino(nodo2)
@@ -74,7 +82,7 @@ class gng():
             ar=[]
 
             #Agregar nodo si no se excedio el limite
-            if self.iteracion%10==0 and len(self.grafo.nodos)<=self.maxNodos:
+            if self.iteracion%self.lamb==0 and len(self.grafo.nodos)<=self.maxNodos:
                 #Encontrar el nodo con error maximo
                 nodoU=self.grafo.getNodeErrorMax()
                 #Encontrar el nodo vecino de nodoU con el error maximo
@@ -107,22 +115,28 @@ class gng():
                 input("Presione una tecla para cerrar")
                 # for nodo in self.grafo.nodos:
                 #     print(nodo.id,  [i[0].id for i in nodo.vecinos])
-                return
+                cerrar=True
+                #return
 
             for punto in self.topologia:
                 pg.draw.circle(pantalla,pg.color.Color('white'),punto,3)
+
             for arista in self.grafo.aristas:
-                pg.draw.line(pantalla,pg.color.Color('red'),arista.nodos[0].posicion,arista.nodos[1].posicion,1)
+                pg.draw.line(pantalla,pg.color.Color('red'),arista.nodos[0].posicion,arista.nodos[1].posicion,4)
 
             for nodo in self.grafo.nodos:
-                pg.draw.circle(pantalla,pg.color.Color('blue'), list(map(int,nodo.posicion)),3)
+                if nodo.visitado==1:
+                    pg.draw.circle(pantalla,pg.color.Color('green'), list(map(int,nodo.posicion)),4)
+                    nodo.visitado=0
+                else:
+                    pg.draw.circle(pantalla,pg.color.Color('blue'), list(map(int,nodo.posicion)),3)
                 #text_to_screen(pantalla,nodo.id,nodo.posicion)
 
             self.iteracion+=1
 
 
             pg.display.flip()
-            reloj.tick(40)
+#            reloj.tick(100)
             
 
 
@@ -137,8 +151,10 @@ class gng():
                     cerrar= True
 
             pantalla.fill(pg.color.Color('black'))
-            for nodo in self.grafo.nodos:
-                pg.draw.circle(pantalla,pg.color.Color('blue'), list(map(int,nodo.posicion)),3)
+            for arista in self.grafo.aristas:
+                pg.draw.line(pantalla,pg.color.Color('red'),arista.nodos[0].posicion,arista.nodos[1].posicion,3)
+            # for nodo in self.grafo.nodos:
+            #     pg.draw.circle(pantalla,pg.color.Color('blue'), list(map(int,nodo.posicion)),3)
             pg.display.flip()
             reloj.tick(20)
 
