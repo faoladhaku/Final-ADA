@@ -55,11 +55,6 @@ class Grafo():
                 #print ("FN",nodo.id)
 
     
-    def findConexion(self,nodo1,nodo2):
-        for arista in self.aristas:
-            if nodo1 in arista.nodos and nodo2 in arista.nodos:
-                return True
-        return False
     
     def deleteConexionA(self,arista):
         self.aristas.remove(arista)
@@ -67,6 +62,7 @@ class Grafo():
         nodo2=arista.nodos[1]
         nodo1.vecinos.remove((nodo2,arista))
         nodo2.vecinos.remove((nodo1,arista))
+        del arista
         #print("Arista eliminada entre",nodo1.id,nodo2.id,hex(id(arista)))
     
     def deleteConexionN(self,nodo1,nodo2):
@@ -84,21 +80,36 @@ class Grafo():
     def findCercanos(self,signal):
         n1=0
         n2=0
-        dMin=float('inf')
+        dMin1=-1
+        dMin2=-1
         for nodo in self.nodos:
-            d=distancia(nodo.posicion,signal)
-            if dMin>=d:
+            if dMin1==-1:
+                dMin1=distancia(nodo.posicion,signal)
                 n1=nodo
-                dMin=d
-        dmin=dMin
-        dMin=float('inf')
-        for nodo in [i for i in self.nodos if i!=n1]:
-            d=distancia(nodo.posicion,signal)
-            if dMin>=d:
+            elif dMin2==-1:
+                dMin2=distancia(nodo.posicion,signal)
                 n2=nodo
-                dMin=d
-        #print(n1,n2)
-        return n1,n2,dmin
+            else:
+                d=distancia(nodo.posicion,signal)
+                if dMin1>=d:
+                    n1=nodo
+                    dMin1=d
+                elif dMin2>d:
+                    #print("n2: ",nodo.posicion)
+                    dMin2=d
+                    n2=nodo
+
+
+        # dmin=dMin
+        # dMin=float('inf')
+        # for nodo in [i for i in self.nodos if i!=n1]:
+        #     d=distancia(nodo.posicion,signal)
+        #     if dMin>=d:
+        #         n2=nodo
+        #         dMin=d
+        # #print(n1,n2)
+        return n1,n2,dMin1
+        
 
     def getNodeErrorMax(self):
         n=self.nodos[0]
@@ -129,45 +140,6 @@ class Grafo():
         self.addConexion(nodoR,nodoV)
         self.deleteConexionA(conexion)
 
-
-
-
-
-
-    def getSenal(self,topologia):
-        minDis=float('inf')
-        cercanos=[]
-        nodoCercano=0
-
-        for nodo in self.nodos:
-            distanciaTotal=0
-            for punto in topologia.nodos:
-                distancia1=distancia(nodo.posicion,punto.posicion)
-                distanciaTotal+=distancia1
-            if distanciaTotal<minDis:
-                minDis=distanciaTotal
-                nodoCercano=nodo
-        cercanos.append(nodoCercano)
-
-        aux=[i for i in self.nodos if i!=nodoCercano]
-        minDis=float('inf')
-        nodoCercano=0
-        for nodo in aux:
-            distanciaTotal=0
-            for punto in topologia.nodos:
-                distanciaTotal+=distancia(nodo.posicion,punto.posicion)
-            if distanciaTotal<minDis:
-                minDis=distanciaTotal
-                nodoCercano=nodo
-        cercanos.append(nodoCercano)
-
-        distanciaMin=float('inf')
-        for nodo in self.nodos:
-            distancia1=distancia(nodo.posicion,cercanos[0].posicion)
-            if distancia1<distanciaMin:
-                distanciaMin=distancia1
-                ##print "este es cercano", nodo.posicion
-        return cercanos,distanciaMin
 
 
 
@@ -257,3 +229,12 @@ def test():
     #print([i.posicion for i in grafo.nodos]) 
 
 #test()
+
+def test1():
+    g=Grafo()
+    g.addNodo1(0,[1,1],0)
+    g.addNodo1(0,[1,0],0)
+    g.addNodo1(0,[-2,1],0)
+    n1,n2,d=g.findCercanos([0,0])
+    print(n1.posicion,n2.posicion)
+#test1()
