@@ -12,6 +12,12 @@ class QNodo:
         self.rectangulo=p1+[self.ancho,self.altura]
         print(p1,p2,"   ",self.rectangulo)
 
+    def Update(self,pantalla): 
+        if not self.tieneHijos(): 
+            pg.draw.rect(pantalla,pg.color.Color('red'),self.rectangulo,1) 
+        else: 
+            for i in self.hijos: 
+                i.Update(pantalla) 
 
     def tieneHijos(self):
         if self.hijos[0]:
@@ -19,6 +25,7 @@ class QNodo:
         return False
 
     def Encontrar(self,objeto):
+        #print(objeto)
         if not self.tieneHijos():
             if objeto.posicion[0] > self.p1[0] and objeto.posicion[0] < self.p2[0] and objeto.posicion[1] > self.p1[1] and objeto.posicion[1] < self.p2[1]:
                 return self
@@ -28,7 +35,17 @@ class QNodo:
                 res=i.Encontrar(objeto)
                 if res:
                     return res
-
+    def EncontrarPunto(self,objeto):
+        #print (objeto)
+        if not self.tieneHijos():
+            if objeto[0] > self.p1[0] and objeto[0] < self.p2[0] and objeto[1] > self.p1[1] and objeto[1] < self.p2[1]:
+                return self
+            return 0
+        else:
+            for i in self.hijos:
+                res=i.EncontrarPunto(objeto)
+                if res:
+                    return res
     def Dividir(self):
         if self.tieneHijos():
             return
@@ -41,7 +58,7 @@ class QNodo:
         self.hijos[1]=QNodo(arriba,derecha)
         self.hijos[2]=QNodo(izquierda,abajo)
         self.hijos[3]=QNodo(centro,self.p2)
-        print()
+        
         for i in self.objetos:
             self.Insertar(i)
     
@@ -49,7 +66,7 @@ class QNodo:
         cuadrante = self.Encontrar(objeto)
         if cuadrante:
             cuadrante.objetos.append(objeto)
-            if len(cuadrante.objetos)==4:
+            if len(cuadrante.objetos)==20:
                 cuadrante.Dividir()
                 
         else:
@@ -57,20 +74,22 @@ class QNodo:
     def FindCercanos(self,objeto):
         nodo1=0
         nodo2=0
-        cuadrante = self.Encontrar(objeto)
-        dMin = float('inf')
-        for nodo in cuadrante.objetos:
-            d = distancia(nodo.posicion,objeto.posicion)
-            if dMin>=d:
-                nodo1 = nodo
-                dMin = d
-        dmin = dMin
-        dMin = float('inf')
-        for nodo in [i for i in self.objetos if i!=nodo1]:
-            d = distancia(nodo.posicion,objeto.posicion)
-            if dMin>=d:
-                nodo2 = nodo
-                dMin = d
-        if(nodo1==0 or nodo2==0):
+        cuadrante = self.EncontrarPunto(objeto)
+        if not cuadrante:
             return False
-        return nodo1,nodo2,dmin
+        if len(cuadrante.objetos)<2:
+            return False
+        dMin1 = float('inf')
+        for nodo in cuadrante.objetos:
+            d = distancia(nodo.posicion,objeto)
+            if dMin1>=d:
+                nodo1 = nodo
+                dMin1 = d 
+        dMin2 = float('inf')
+        for nodo in cuadrante.objetos:
+            d = distancia(nodo.posicion,objeto)
+            if dMin2>=d and nodo!=nodo1:
+                nodo2 = nodo
+                dMin2 = d
+        
+        return nodo1,nodo2,dMin1

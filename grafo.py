@@ -11,11 +11,11 @@ def distancia(pos1,pos2):
 
 
 class Grafo():
-    def __init__(self):
+    def __init__(self,tam):
         self.nodos = []
         self.aristas = []
         self.id=0
-        self.tree = QuadTree()
+        self.tree = QuadTree(tam)
     def addNodo(self, nodo):
         self.nodos.append(nodo)
         self.id+=1
@@ -101,21 +101,20 @@ class Grafo():
         if(self.tree.raiz.FindCercanos(signal)==False):
             n1=0
             n2=0
-            dMin=float('inf')
+            dMin1=float('inf')
             for nodo in self.nodos:
                 d=distancia(nodo.posicion,signal)
-                if dMin>=d:
+                if dMin1>=d:
                     n1=nodo
-                    dMin=d
-            dmin=dMin
-            dMin=float('inf')
-            for nodo in [i for i in self.nodos if i!=n1]:
+                    dMin1=d
+            dMin2=float('inf')
+            for nodo in self.nodos:
                 d=distancia(nodo.posicion,signal)
-                if dMin>=d:
+                if d<dMin2 and nodo!=n1:
                     n2=nodo
-                    dMin=d
+                    dMin2=d
             #print(n1,n2)
-            return n1,n2,dmin
+            return n1,n2,dMin1
         return self.tree.raiz.FindCercanos(signal)
 
 

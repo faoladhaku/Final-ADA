@@ -9,7 +9,11 @@ class QuadTree:
         self.actualizar=self.raiz
     def update1(self,objeto):
         cuadrante = self.raiz.Encontrar(objeto)
-        cuadrante.objetos.remove(objeto)
+        try:
+            cuadrante.objetos.remove(objeto)
+        except:
+            print("mal addnode")
+            pass
         self.actualizar = cuadrante
     def update2(self,objeto):
         actualizando = self.actualizar

@@ -36,7 +36,9 @@ class gng():
         cerrar=False
 
         while not cerrar:
-
+            for evento in pg.event.get():
+                if evento.type==pg.QUIT:
+                    cerrar= True
 
 
             #Generar la senal (un elemento random de la topologia)
@@ -89,7 +91,7 @@ class gng():
                 posMedia=nodoU.posMedia(nodoV)
                 #Crear un nodo entre los dos
                 nodoR=self.grafo.addNodo1(1,posMedia,0)
-                self.grafo.tree.raiz.Insertar(nodoR)
+                #self.grafo.tree.raiz.Insertar(nodoR)
                 #Conectar nodoR a nodoU y nodoV y borrar la conexion entre nodoU y nodoV
                 self.grafo.addConexion(nodoU,nodoR)
                 self.grafo.addConexion(nodoR,nodoV)
@@ -115,6 +117,7 @@ class gng():
                 for nodo in self.grafo.nodos:
                     pg.draw.circle(pantalla,pg.color.Color('blue'), map(int,nodo.posicion),3)
                 
+                self.grafo.tree.raiz.Update(pantalla)
                 text_to_screen(pantalla,"nodos: "+str(self.grafo.id),[5,5])
 
                 pg.display.flip()
