@@ -80,24 +80,19 @@ class Grafo():
     def findCercanos(self,signal):
         n1=0
         n2=0
-        dMin1=-1
-        dMin2=-1
+        dMin1=float('inf')
+        dMin2=float('inf')
+
         for nodo in self.nodos:
-            if dMin1==-1:
-                dMin1=distancia(nodo.posicion,signal)
+            d=distancia(nodo.posicion,signal)
+            if d<dMin1:
                 n1=nodo
-            elif dMin2==-1:
-                dMin2=distancia(nodo.posicion,signal)
+                dMin1=d
+        for nodo in self.nodos:
+            d=distancia(nodo.posicion,signal)
+            if d<dMin2 and nodo!=n1:
                 n2=nodo
-            else:
-                d=distancia(nodo.posicion,signal)
-                if dMin1>=d:
-                    n1=nodo
-                    dMin1=d
-                elif dMin2>d:
-                    #print("n2: ",nodo.posicion)
-                    dMin2=d
-                    n2=nodo
+                dMin2=d
 
 
         # dmin=dMin
@@ -146,7 +141,6 @@ class Grafo():
 
 def text_to_screen(screen, text, pos, size = 25):
     try:
-
         text = str(text)
         font = pg.font.Font(None, size)
         text = font.render(text, True, pg.color.Color('white'))
@@ -159,6 +153,7 @@ def text_to_screen(screen, text, pos, size = 25):
 
 def test():
     grafo=Grafo()
+    
     tam=[600,600]
     pg.font.init()
 
@@ -203,8 +198,7 @@ def test():
                     ar=grafo.aristas[:]
                     for arista in ar:
                         grafo.deleteConexionA(arista)
-                    ar.clear()
-            
+                    ar.clear()            
                 
         pantalla.fill(pg.color.Color('black'))
         #pg.draw.rect(pantalla,pg.color.Color('blue'),[300,300,600,600],1)
@@ -232,9 +226,12 @@ def test():
 
 def test1():
     g=Grafo()
-    g.addNodo1(0,[1,1],0)
-    g.addNodo1(0,[1,0],0)
-    g.addNodo1(0,[-2,1],0)
+    g.addNodo1(0,[1,1],3)
+    g.addNodo1(0,[1,0],12)
+    g.addNodo1(0,[-2,1],8)
     n1,n2,d=g.findCercanos([0,0])
+
+
     print(n1.posicion,n2.posicion)
+
 #test1()
