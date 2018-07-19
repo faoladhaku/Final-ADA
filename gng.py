@@ -6,7 +6,7 @@ import operator
 class gng():
     def __init__(self,topologia,tam):
         self.topologia = topologia
-        self.grafo = Grafo()
+        self.grafo = Grafo(tam)
         self.senal = []
         nodo1=self.grafo.addNodo1(1,[random.randint(1,600),random.randint(1,600)],0)
         nodo2=self.grafo.addNodo1(1,[random.randint(1,600),random.randint(1,600)],0)
@@ -28,8 +28,7 @@ class gng():
 
 
     def start(self):
-
-        tam=self.tam
+        tam=self.grafo.tree.tam
         pantalla=pg.display.set_mode(tam)
         reloj=pg.time.Clock()
         pg.font.init()
@@ -58,13 +57,17 @@ class gng():
 
             #Movemos al nodo mas cercano hacia la senal
             #e=0.3  #Factor de movimiento (algo asi como la velocidad)
+            self.grafo.tree.update1(nodo1)
             nodo1.mover(self.ew,signal)
             nodo1.visitado=1
+            self.grafo.tree.update2(nodo1)
 
             #Movemos a todos los vecinos hacia la senal
             for vecino in nodo1.vecinos:
+                self.grafo.tree.update1(vecino[0])
                 vecino[0].mover(self.en,signal)
                 vecino[1].edad+=5
+                self.grafo.tree.update2(vecino[0])
             
             #Revisamos si los dos nodos del principio tienen conexion
             arista=nodo1.tieneVecino(nodo2)
@@ -92,7 +95,7 @@ class gng():
                 posMedia=nodoU.posMedia(nodoV)
                 #Crear un nodo entre los dos
                 nodoR=self.grafo.addNodo1(1,posMedia,0)
-
+                self.grafo.tree.raiz.Insertar(nodoR)
                 #Conectar nodoR a nodoU y nodoV y borrar la conexion entre nodoU y nodoV
                 self.grafo.addConexion(nodoU,nodoR)
                 self.grafo.addConexion(nodoR,nodoV)

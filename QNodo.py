@@ -1,5 +1,6 @@
 import pygame as pg
-
+def distancia(pos1,pos2):
+    return ((pos1[0]-pos2[0])**2+(pos1[1]-pos2[1])**2)**(1/2.0)
 class QNodo:
     def __init__(self, p1, p2):
         self.p1=p1
@@ -17,18 +18,9 @@ class QNodo:
             return True
         return False
 
-    def Update(self,pantalla):
-        if not self.tieneHijos():
-            pg.draw.rect(pantalla,pg.color.Color('red'),self.rectangulo,1)
-            for objeto in self.objetos:
-                pg.draw.circle(pantalla,pg.color.Color('blue'),objeto,5,0)
-        else:
-            for i in self.hijos:
-                i.Update(pantalla)
-
     def Encontrar(self,objeto):
         if not self.tieneHijos():
-            if objeto[0] > self.p1[0] and objeto[0] < self.p2[0] and objeto[1] > self.p1[1] and objeto[1] < self.p2[1]:
+            if objeto.posicion[0] > self.p1[0] and objeto.posicion[0] < self.p2[0] and objeto.posicion[1] > self.p1[1] and objeto.posicion[1] < self.p2[1]:
                 return self
             return 0
         else:
@@ -62,3 +54,23 @@ class QNodo:
                 
         else:
             print ("que fue?")
+    def FindCercanos(self,objeto):
+        nodo1=0
+        nodo2=0
+        cuadrante = self.Encontrar(objeto)
+        dMin = float('inf')
+        for nodo in cuadrante.objetos:
+            d = distancia(nodo.posicion,objeto.posicion)
+            if dMin>=d:
+                nodo1 = nodo
+                dMin = d
+        dmin = dMin
+        dMin = float('inf')
+        for nodo in [i for i in self.objetos if i!=nodo1]:
+            d = distancia(nodo.posicion,objeto.posicion)
+            if dMin>=d:
+                nodo2 = nodo
+                dMin = d
+        if(nodo1==0 or nodo2==0):
+            return False
+        return nodo1,nodo2,dmin

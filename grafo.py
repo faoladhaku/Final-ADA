@@ -4,7 +4,7 @@ import pygame as pg
 from arista import Arista
 from nodo import Nodo
 import random
-
+from QuadTree import *
 
 def distancia(pos1,pos2):
     return ((pos1[0]-pos2[0])**2+(pos1[1]-pos2[1])**2)**(1/2.0)
@@ -15,15 +15,18 @@ class Grafo():
         self.nodos = []
         self.aristas = []
         self.id=0
+        self.tree = QuadTree()
     def addNodo(self, nodo):
         self.nodos.append(nodo)
         self.id+=1
+        self.tree.raiz.Insertar(nodo)
         ##print "AN",nodo.posicion
     def addNodo1(self,id,posicion,error):
         nuevo=Nodo(self.id,posicion,error)
         self.nodos.append(nuevo)
         #print("Añadido nodo",self.id,"en",posicion)
         self.id+=1
+        self.tree.raiz.Insertar(nuevo)
         return nuevo
 
     def addArista(self, arista):
@@ -82,7 +85,7 @@ class Grafo():
         pass
 
     def findCercanos(self,signal):
-        n1=0
+        """ n1=0
         n2=0
         dMin=float('inf')
         for nodo in self.nodos:
@@ -98,7 +101,26 @@ class Grafo():
                 n2=nodo
                 dMin=d
         #print(n1,n2)
-        return n1,n2,dmin
+        return n1,n2,dmin """
+        if(self.tree.raiz.FindCercanos(signal)==False):
+            n1=0
+            n2=0
+            dMin=float('inf')
+            for nodo in self.nodos:
+                d=distancia(nodo.posicion,signal)
+                if dMin>=d:
+                    n1=nodo
+                    dMin=d
+            dmin=dMin
+            dMin=float('inf')
+            for nodo in [i for i in self.nodos if i!=n1]:
+                d=distancia(nodo.posicion,signal)
+                if dMin>=d:
+                    n2=nodo
+                    dMin=d
+            #print(n1,n2)
+            return n1,n2,dmin
+        return self.tree.raiz.FindCercanos(signal)
 
     def getNodeErrorMax(self):
         n=self.nodos[0]
