@@ -38,6 +38,9 @@ class gng():
 
         while not cerrar:
 
+            for evento in pg.event.get():
+                if evento.type==pg.QUIT:
+                    cerrar= True
 
 
             #Generar la senal (un elemento random de la topologia)
